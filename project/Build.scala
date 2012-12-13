@@ -11,7 +11,8 @@ object LMSBuild extends Build {
     base = file("."),
     settings = Project.defaultSettings ++ Seq(
       scalaVersion := "2.10.0-RC5",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "1.6.1" % "test"
+      resolvers +=  "OSSH" at "https://oss.sonatype.org/content/groups/public",
+      libraryDependencies += "org.scalatest" % "scalatest_2.10.0-RC5" % "2.0.M5-B1" % "test" 
     )).dependsOn(mpdeProj)
 
 }
