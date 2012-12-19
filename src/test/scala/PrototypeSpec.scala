@@ -5,7 +5,7 @@ import dsl.la._
 
 class PrototypeSpec extends FlatSpec with ShouldMatchers {
 
-  "A Shallow embedding of la" should "produce values" in {
+  "A shallow embedding of la" should "produce values" in {
      val x = la {
        val v1 = DenseVector(1,2,3)
        (v1 + (DenseVector(3,4,5) * SparseVector[Int](6,7,8)): Vector[Int]).map(_ + 1)

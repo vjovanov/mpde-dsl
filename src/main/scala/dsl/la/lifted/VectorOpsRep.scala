@@ -3,11 +3,10 @@ package dsl.la.rep
 import scala.reflect.ClassTag
 
 /*
- * This is a prototype implementation of the embedded DSL. In the first instance it can just print what is invoked. 
- * In this prototype we will use the approach similar to LMS.  
+ * This is a prototype implementation of the embedded DSL with Rep[T] types. The Rep[T] marks that the value
+ * will be available in the next stage of computation. In this prototype we will use the approach similar to LMS.
  * 
- * DSL. Once the library is complete all method implementations should
- * remain empty so users can build their own embedded compilers. There is need to enforce more than lifting on the library user.  
+ * We need to provide the interface for basic Scala library features. 
  */
 trait Base {
   type Rep[+T]
@@ -24,15 +23,13 @@ trait NumericOps extends Base {
 }
 
 
-
 trait IntDSL extends Base {
   trait IntOps {
     def +(that: Rep[Int]): Rep[Int] 
     // TODO complete
   }
   
-  implicit def toIntOps(v: Rep[Int]): IntOps = new IntOpsOf(v)
-  class IntOpsOf(v: Rep[Int]) extends IntOps {
+  implicit class IntOpsOf(v: Rep[Int]) extends IntOps {
     def +(that: Rep[Int]): Rep[Int] = ???
   }
 
@@ -41,8 +38,6 @@ trait IntDSL extends Base {
   }
 }
 
-
-
 trait ArrayDSL extends Base {
   
   trait ArrayOps[T] {
@@ -50,8 +45,7 @@ trait ArrayDSL extends Base {
     // TODO complete the list of methods
   }
   
-  implicit def toArrayOps[T](v: Rep[Array[T]]): ArrayOps[T] = new ArrayOpsOf(v)
-  class ArrayOpsOf[T](v: Rep[Array[T]]) extends ArrayOps[T] {
+  implicit class ArrayOpsOf[T](v: Rep[Array[T]]) extends ArrayOps[T] {
     def apply(i: Rep[Int]): Rep[T] = ??? 
     // TODO complete
   }
@@ -63,8 +57,6 @@ trait ArrayDSL extends Base {
   
 }
 
-
-
 trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base {
   
   trait VectorOps[T] {
@@ -73,9 +65,8 @@ trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base {
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]]
   }
 
-  implicit def toVectorOps[T](v: Rep[Vector[T]]): VectorOps[T] = new VectorOpsOf(v)
-  class VectorOpsOf[T](v: Rep[Vector[T]]) extends VectorOps[T] {
-    def *(v: Rep[Vector[T]]): Rep[Vector[T]] = ??? // here we pass the nodes
+  implicit class VectorOpsOf[T](v: Rep[Vector[T]]) extends VectorOps[T] {
+    def *(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def +(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]] = ???
     // TODO complete

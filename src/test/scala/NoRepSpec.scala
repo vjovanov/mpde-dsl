@@ -1,13 +1,14 @@
-import dsl.la.rep._
+import dsl.la.norep._
+import dsl.la._
 import collection.mutable.Stack
 import org.scalatest._
 
 /*
  * This tests shows the mechanics of the Rep[T] based approach.
  */
-class RepSpec extends FlatSpec with ShouldMatchers {
+class NoRepSpec extends FlatSpec with ShouldMatchers {
 
-  "A deep embedding of la with Rep types" should "compile" in {
+  "A deep embedding of la without Rep types" should "compile" in {
     val x = new VectorDSL {
       def main = {
         val v1 = DenseVector(liftTerm(1), liftTerm(2), liftTerm(3))
@@ -16,5 +17,11 @@ class RepSpec extends FlatSpec with ShouldMatchers {
         mappedRes
       }
     }
+  }
+  
+  "Baby steps first: No code at all. Just return a constant!!" should "compile" in {
+    val out = 1
+    var varOut = 2
+    laLifted ("test", {val x = Vector(out,varOut,3); var y = x; ();})
   }
 }
