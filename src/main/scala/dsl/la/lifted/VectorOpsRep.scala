@@ -34,7 +34,22 @@ trait IntDSL extends Base {
   }
 
   implicit object LiftInt extends LiftEvidence[Int, Rep[Int]] {
-    def lift(v: Int): Rep[Int] = ???  
+    def lift(v: Int): Rep[Int] = ???
+  }
+}
+
+trait DoubleDSL extends Base {
+  trait DoubleOps {
+    def +(that: Rep[Double]): Rep[Double]
+    // TODO complete
+  }
+
+  implicit class DoubleOpsOf(v: Rep[Double]) extends DoubleOps {
+    def +(that: Rep[Double]): Rep[Double] = ???
+  }
+
+  implicit object LiftDouble extends LiftEvidence[Double, Rep[Double]] {
+    def lift(v: Double): Rep[Double] = ???
   }
 }
 
@@ -57,23 +72,33 @@ trait ArrayDSL extends Base {
   
 }
 
-trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base {
-  
+trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with Base {
+
+  //TO-ASK - why here is not defined in Vector.scala Vector
+
   trait VectorOps[T] {
     def *(v: Rep[Vector[T]]): Rep[Vector[T]]
     def +(v: Rep[Vector[T]]): Rep[Vector[T]]
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]]
+    def negate: Vector[T] = ???
+    def length: Double = ???
+
   }
 
   implicit class VectorOpsOf[T](v: Rep[Vector[T]]) extends VectorOps[T] {
     def *(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def +(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]] = ???
+    //TO-ASK - problem with compilation it needs override parameter
+    //when we don't provide parameters to def
+    //def negate: Rep[Vector[T]] = ???
+    //def length: Rep[Double] = ???
     // TODO complete
   }
   
   object DenseVector {
     def apply[T: Numeric: ClassTag](a: Rep[T]*): Rep[Vector[T]] = ???
+    def apply[T: Numeric: ClassTag](a: Rep[Map[Int, T]]): Rep[Vector[T]] = ???
   }
 
   /**
@@ -81,6 +106,7 @@ trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base {
    */
   object SparseVector {
     def apply[T: Numeric: ClassTag](a: Rep[T]*): Rep[Vector[T]] = ???
+    def apply[T: Numeric: ClassTag](a: Rep[Map[Int, T]]): Rep[Vector[T]] = ???
   }
 
 }
