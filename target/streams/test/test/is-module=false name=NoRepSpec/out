@@ -1,0 +1,13 @@
+[0m[[0minfo[0m] [0m[32mNoRepSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mRepSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mPrototypeSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mA deep embedding of la with Rep types[0m[0m
+[0m[[0minfo[0m] [0m[32mA deep embedding of la without Rep types[0m[0m
+[0m[[0minfo[0m] [0m[32mA shallow embedding of la[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compile[0m[0m
+[0m[[0minfo[0m] [0m[32mBaby steps first: No code at all. Just return a constant!![0m[0m
+[0m[[0minfo[0m] [0m[32m- should compile[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compile[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compile[0m[0m
+[0m[[0minfo[0m] [0m[32m- should work with a simple object[0m[0m

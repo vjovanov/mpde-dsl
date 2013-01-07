@@ -116,20 +116,16 @@ trait VectorDSL extends ArrayDSL with IntDSL with DoubleDSL with NumericOps with
     def +(v: Vector[T]): Vector[T]
     def map[U: Numeric: ClassTag](v: T => U): Vector[U]
 
-    //returns list of Vectors - to test with Rep Types
     def baseVectors: List[Vector[T]] = ??? //find base vectors
 
-    //divide vector on 2 vectors according to condition
-    //to see behaviour of tuple when tuple is a result
     def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
 
     def dotProduct(v: Vector[T]): T = ???
 
     def splice(vs: Vector[T]*): Vector[T] = ???
-    //to see behaviour of tuples when they behave as parameter type
+
     def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
 
-    //to see behaviour of functional type parameter with generics
     def transform(tr: VectorTransformer[T]): Vector[T] = ???
   }
 

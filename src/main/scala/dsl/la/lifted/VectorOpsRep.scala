@@ -74,14 +74,30 @@ trait ArrayDSL extends Base {
 
 trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with Base {
 
-  //TO-ASK - why here is not defined in Vector.scala Vector
+  //TODO (TOASK) - why we don't use our Vector type in Vector.scala instead of standart Vector class
 
   trait VectorOps[T] {
     def *(v: Rep[Vector[T]]): Rep[Vector[T]]
     def +(v: Rep[Vector[T]]): Rep[Vector[T]]
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]]
-    def negate: Vector[T] = ???
-    def length: Double = ???
+    def negate: Rep[Vector[T]]
+    def length: Rep[Double]
+
+    //returns list of Vectors - to test with Rep Types
+    //TODO (TOASK) how to correctly provide Rep type?
+    //Rep[List[Vector[T]] or List[Rep[Vector[T]]
+    //or Rep[List[Rep[Vector[T]]]] ???
+    def baseVectors: Rep[List[Vector[T]]] //find base vectors
+
+    def partition(fun: Rep[T] => Rep[Boolean]): Rep[(Vector[T], Vector[T])]
+
+    def dotProduct(v: Rep[Vector[T]]): Rep[T]
+
+    def splice(vs: Rep[Vector[T]]*): Rep[Vector[T]]
+
+    //TODO (TOASK)
+    //the same question with tuple Rep[(El, El)] or (Rep[El], Rep[El]) or Rep[(Rep[El], Rep[El])]
+    def spliceT(v: Rep[(Vector[T], Vector[T])]): Rep[Vector[T]]
 
   }
 
@@ -89,15 +105,27 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with
     def *(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def +(v: Rep[Vector[T]]): Rep[Vector[T]] = ???
     def map[U: Numeric: ClassTag](v: Rep[T] => Rep[U]): Rep[Vector[U]] = ???
-    //TO-ASK - problem with compilation it needs override parameter
-    //when we don't provide parameters to def
-    //def negate: Rep[Vector[T]] = ???
-    //def length: Rep[Double] = ???
+
+    def negate: Rep[Vector[T]] = ???
+    def length: Rep[Double] = ???
+
+    def baseVectors: Rep[List[Vector[T]]] = ??? //find base vectors
+
+    def partition(fun: Rep[T] => Rep[Boolean]): Rep[(Vector[T], Vector[T])] = ???
+
+    def dotProduct(v: Rep[Vector[T]]): Rep[T] = ???
+
+    def splice(vs: Rep[Vector[T]]*): Rep[Vector[T]] = ???
+
+    def spliceT(v: Rep[(Vector[T], Vector[T])]): Rep[Vector[T]] = ???
+
     // TODO complete
   }
   
   object DenseVector {
     def apply[T: Numeric: ClassTag](a: Rep[T]*): Rep[Vector[T]] = ???
+
+    //TODO required possibility to lift Map to Rep[Map]
     def apply[T: Numeric: ClassTag](a: Rep[Map[Int, T]]): Rep[Vector[T]] = ???
   }
 

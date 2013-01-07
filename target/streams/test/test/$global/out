@@ -1,0 +1,8 @@
+[0m[[0mdebug[0m] [0mRunning Test PrototypeSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test RepSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test NoRepSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0minfo[0m] [0mPassed: : Total 6, Failed 0, Errors 0, Passed 6, Skipped 0[0m
+[0m[[0mdebug[0m] [0mPassed tests:[0m
+[0m[[0mdebug[0m] [0m	RepSpec[0m
+[0m[[0mdebug[0m] [0m	PrototypeSpec[0m
+[0m[[0mdebug[0m] [0m	NoRepSpec[0m

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="lamp.epfl.ch"
+		module="mpde-dsl$sources_javadoc_2.10"
+		revision="1.0"
+		conf="test-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom"
+		date="20130105023636"/>
+	<dependencies>
+		<module organisation="org.scalatest" name="scalatest_2.10.0-RC5">
+			<revision name="2.0.M5-B1" status="release" pubdate="20121206223422" resolver="OSSH" artresolver="OSSH" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="4">
+				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="5227" time="0" location="/home/vova/.ivy2/cache/org.scalatest/scalatest_2.10.0-RC5/ivy-2.0.M5-B1.xml" searched="false" origin-is-local="false" origin-location="https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.10.0-RC5/2.0.M5-B1/scalatest_2.10.0-RC5-2.0.M5-B1.pom"/>
+				<caller organisation="lamp.epfl.ch" name="mpde-dsl$sources_javadoc_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.0.M5-B1" rev-constraint-default="2.0.M5-B1" rev-constraint-dynamic="2.0.M5-B1" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scalatest_2.10.0-RC5" type="doc" ext="jar" extra-classifier="javadoc" status="no" details="" size="341" time="0" location="/home/vova/.ivy2/cache/org.scalatest/scalatest_2.10.0-RC5/docs/scalatest_2.10.0-RC5-2.0.M5-B1-javadoc.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.10.0-RC5/2.0.M5-B1/scalatest_2.10.0-RC5-2.0.M5-B1-javadoc.jar"/>
+					</artifact>
+					<artifact name="scalatest_2.10.0-RC5" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="993647" time="6747" location="/home/vova/.ivy2/cache/org.scalatest/scalatest_2.10.0-RC5/srcs/scalatest_2.10.0-RC5-2.0.M5-B1-sources.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.10.0-RC5/2.0.M5-B1/scalatest_2.10.0-RC5-2.0.M5-B1-sources.jar"/>
+					</artifact>
+					<artifact name="scalatest_2.10.0-RC5" type="jar" ext="jar" status="no" details="" size="3998287" time="0" location="/home/vova/.ivy2/cache/org.scalatest/scalatest_2.10.0-RC5/jars/scalatest_2.10.0-RC5-2.0.M5-B1.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.10.0-RC5/2.0.M5-B1/scalatest_2.10.0-RC5-2.0.M5-B1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="ch.epfl.lamp" name="mpde_2.10">
+			<revision name="0.1-SNAPSHOT" status="integration" pubdate="20130105023636" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="0">
+				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
+				<caller organisation="lamp.epfl.ch" name="mpde-dsl$sources_javadoc_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="0.1-SNAPSHOT" rev-constraint-default="0.1-SNAPSHOT" rev-constraint-dynamic="0.1-SNAPSHOT" callerrev="1.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-compiler">
+			<revision name="2.10.0-RC5" status="release" pubdate="20121206034235" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="2">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html    "/>
+				<metadata-artifact status="no" details="" size="2825" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.10.0-RC5.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.10.0-RC5/scala-compiler-2.10.0-RC5.pom"/>
+				<caller organisation="lamp.epfl.ch" name="mpde-dsl$sources_javadoc_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.10.0-RC5" rev-constraint-default="2.10.0-RC5" rev-constraint-dynamic="2.10.0-RC5" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-compiler" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="2007189" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-compiler/srcs/scala-compiler-2.10.0-RC5-sources.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-compiler/2.10.0-RC5/scala-compiler-2.10.0-RC5-sources.jar"/>
+					</artifact>
+					<artifact name="scala-compiler" type="doc" ext="jar" extra-classifier="javadoc" status="no" details="" size="12039207" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-compiler/docs/scala-compiler-2.10.0-RC5-javadoc.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-compiler/2.10.0-RC5/scala-compiler-2.10.0-RC5-javadoc.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-reflect">
+			<revision name="2.10.0-RC5" status="release" pubdate="20121206033642" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="3">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html    "/>
+				<metadata-artifact status="no" details="" size="2560" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-reflect/ivy-2.10.0-RC5.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.10.0-RC5/scala-reflect-2.10.0-RC5.pom"/>
+				<caller organisation="lamp.epfl.ch" name="mpde-dsl$sources_javadoc_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.10.0-RC5" rev-constraint-default="2.10.0-RC5" rev-constraint-dynamic="2.10.0-RC5" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-reflect" type="doc" ext="jar" extra-classifier="javadoc" status="no" details="" size="33538270" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-reflect/docs/scala-reflect-2.10.0-RC5-javadoc.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-reflect/2.10.0-RC5/scala-reflect-2.10.0-RC5-javadoc.jar"/>
+					</artifact>
+					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3149337" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.10.0-RC5.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.10.0-RC5/scala-reflect-2.10.0-RC5.jar"/>
+					</artifact>
+					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="418349" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.10.0-RC5-sources.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-reflect/2.10.0-RC5/scala-reflect-2.10.0-RC5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.10.0-RC5" status="release" pubdate="20121206033202" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="1">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
+				<metadata-artifact status="no" details="" size="2396" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.0-RC5.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.10.0-RC5/scala-library-2.10.0-RC5.pom"/>
+				<caller organisation="lamp.epfl.ch" name="mpde-dsl$sources_javadoc_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.10.0-RC5" rev-constraint-default="2.10.0-RC5" rev-constraint-dynamic="2.10.0-RC5" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1054538" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.0-RC5-sources.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-library/2.10.0-RC5/scala-library-2.10.0-RC5-sources.jar"/>
+					</artifact>
+					<artifact name="scala-library" type="doc" ext="jar" extra-classifier="javadoc" status="no" details="" size="33538270" time="0" location="/home/vova/.ivy2/cache/org.scala-lang/scala-library/docs/scala-library-2.10.0-RC5-javadoc.jar">
+						<origin-location is-local="false" location="https://oss.sonatype.org/content/groups/public/org/scala-lang/scala-library/2.10.0-RC5/scala-library-2.10.0-RC5-javadoc.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

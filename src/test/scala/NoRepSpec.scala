@@ -19,6 +19,8 @@ class NoRepSpec extends FlatSpec with ShouldMatchers {
         val t3 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) dotProduct t2._1
         val t4 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) splice (t2._1, t2._2)
         val t5: Vector[Double] = t4 spliceT ((t2._1, t2._2))
+
+        //TODO fix (implement) correct implicit for transform
 //        val t6: Vector[Double] = t5 transform
 
         val v0 = DenseVector(Map(liftTerm(1)->liftTerm(1.0), liftTerm(2)->liftTerm(2.0), liftTerm(3)->liftTerm(3.0))) negate

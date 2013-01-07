@@ -11,33 +11,37 @@ trait Vector[T] {
   def *(v: Vector[T]): Vector[T]
   def +(v: Vector[T]): Vector[T]
 
+  //three simple methods just to example
   //method without parameters which should return List of Vectors (our type)
   def negate: Vector[T]
-
-  //method without parameters which should return Scala standart type
+   //method without parameters which should return Scala standart type
   def length: Double
 
+  def dotProduct(v: Vector[T]): T
+
   //returns list of Vectors - to test with Rep Types
-  def baseVectors: List[Vector[T]] = ??? //find base vectors
+  def baseVectors: List[Vector[T]] //find base vectors
 
   //divide vector on 2 vectors according to condition
-  //to see behaviour of tuple when tuple is a result
-  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
+  //to see behaviour of function with various types as parameter and tuple (result)
+  //TODO required possibility to lift such functions
+  def partition(fun: T => Boolean): (Vector[T], Vector[T])
 
-  def dotProduct(v: Vector[T]): T = ???
+  //to see behaviour of varargs parameters with Rep types
+  def splice(vs: Vector[T]*): Vector[T]
 
-  def splice(vs: Vector[T]*): Vector[T] = ???
   //to see behaviour of tuples when they behave as parameter type
-  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
+  //TODO required possibility to lift tuples to Rep[(Tuple, Tuple)]
+  def spliceT(v: (Vector[T], Vector[T])): Vector[T]
 
   //to see behaviour of functional type parameter with generics
-  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
+  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T]
 
   def map[U: Numeric: ClassTag](v: T => U): Vector[U]
 }
 
 
-//Maybe we can provide companion object for Vector for implementation of common apply methods
+//TODO (TOASK) Maybe we can provide companion object for Vector (for implementation of common apply methods)
 
 object DenseVector {
   def apply[T: Numeric: ClassTag](a: T*): Vector[T] = apply(a.toArray)
@@ -65,10 +69,23 @@ final private class DenseVector[T: Numeric: ClassTag](val x: Array[T]) extends V
 
   def negate = new DenseVector[T](underlying.map(num.negate(_)).toArray)
 
-  //def length = scala.math.sqrt(num.toDouble(underlying.map((x) => num.times(x, x)).sum))
   def length = scala.math.sqrt(num.toDouble(underlying.map((x) => num.times(x, x)).sum))
 
   def map[U: Numeric: ClassTag](f: T => U): Vector[U] = new DenseVector(underlying.map(f).toArray)
+
+  def dotProduct(v: Vector[T]): T = ???
+
+  def baseVectors: List[Vector[T]] = ???
+
+  //TODO required possibility to lift such functions
+  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
+
+  def splice(vs: Vector[T]*): Vector[T] = ???
+
+  //TODO required possibility to lift tuples to Rep[(Tuple, Tuple)]
+  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
+
+  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
   
   override def equals(that: Any) = that match {
     case t: Vector[T] => t.underlying.toSeq == underlying.toSeq
@@ -84,7 +101,7 @@ object SparseVector {
   def apply[T: Numeric: ClassTag](a: T*): Vector[T] = apply(a.toList)
   def apply[T: Numeric: ClassTag](v: List[T]): Vector[T] = new SparseVector(v)
 
-  //apply to Tuples (of course I didn't provide apply for all TupleN classes)
+  //apply to Tuples (not for all TupleN classes)
   //ERROR when using with apply(a: T*)
   //def apply[T: Numeric: ClassTag](v: (T, T, T)): Vector[T] = new SparseVector[T](List(v._1, v._2, v._3))
   def apply[T: Numeric: ClassTag](v: Map[Int, T]): Vector[T] = new SparseVector(v.values.seq.toList)
@@ -110,7 +127,21 @@ final private class SparseVector[T: Numeric: ClassTag](val x: List[T]) extends V
   def length = scala.math.sqrt(num.toDouble(underlying.map((x) => num.times(x, x)).sum))
   
   def map[U: Numeric: ClassTag](f: T => U): Vector[U] = new SparseVector(underlying.map(f).toList)
-    
+
+  def dotProduct(v: Vector[T]): T = ???
+
+  def baseVectors: List[Vector[T]] = ??? //find base vectors
+
+  //TODO required possibility to lift such functions
+  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
+
+  def splice(vs: Vector[T]*): Vector[T] = ???
+
+  //TODO required possibility to lift tuples to Rep[(Tuple, Tuple)]
+  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
+
+  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
+
   override def equals(that: Any) = that match {
     case t: Vector[T] => t.underlying.toSeq == underlying.toSeq
     case _ => false
