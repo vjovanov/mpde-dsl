@@ -1,10 +1,12 @@
 package dsl.la
 
 import scala.reflect.ClassTag
-import scala.collection.mutable.WrappedArray
+import collection.mutable.{ListBuffer, WrappedArray}
+import collection.mutable
 
 trait Vector[T] {
   type VectorTransformer[T] = Vector[T]=>Vector[T]
+  type VectorConverter[Vector1[T] <: Vector[T], Vector2[T] <: Vector[T]] = Vector1[T]=>Vector2[T]
 
   //TODO refactoring of DENSE and SPARSE vectors
   protected[la] def underlying: IndexedSeq[T]
@@ -35,9 +37,13 @@ trait Vector[T] {
   def spliceT(v: (Vector[T], Vector[T])): Vector[T]
 
   //to see behaviour of functional type parameter with generics
-  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T]
+  //def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T]
 
   def map[U: Numeric: ClassTag](v: T => U): Vector[U]
+
+  def transform(implicit vt: VectorTransformer[T]): Vector[T]
+
+//  def convert[Vector1, Vector2](implicit conv: VectorConverter[Vector1, Vector2]): Vector2
 }
 
 
@@ -73,19 +79,37 @@ final private class DenseVector[T: Numeric: ClassTag](val x: Array[T]) extends V
 
   def map[U: Numeric: ClassTag](f: T => U): Vector[U] = new DenseVector(underlying.map(f).toArray)
 
-  def dotProduct(v: Vector[T]): T = ???
+  def dotProduct(v: Vector[T]): T = underlying.zip(v.underlying).map((x) => num.times(x._1, x._2)).sum
 
-  def baseVectors: List[Vector[T]] = ???
+  def baseVectors: List[Vector[T]] = underlying.zipWithIndex.map{case (x, i) => new DenseVector({
+    val mas = Array.fill(underlying.length)(num.zero)
+    mas(i) = x
+    mas
+  })} toList
 
   //TODO required possibility to lift such functions
-  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
+  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = underlying partition (fun) match {
+    case (head, tail) => (new DenseVector(head toArray), new DenseVector(tail toArray))
+  }
 
-  def splice(vs: Vector[T]*): Vector[T] = ???
+  def splice(vs: Vector[T]*): Vector[T] = new DenseVector(vs flatMap (_.underlying) toArray)
 
   //TODO required possibility to lift tuples to Rep[(Tuple, Tuple)]
-  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
+  //warning very ineffective
+  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = new DenseVector[T](v._1.underlying ++ v._2.underlying toArray)
 
-  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
+  //def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
+  def transform(implicit vt: VectorTransformer[T]): Vector[T] = {
+    vt(this)
+  }
+
+  //TODO (TOASK) why I can't (shouldn't) setup here type parameter T for DenseVector and SparseVector
+  //I mean VectorConverter[DenseVector[T], SparseVector[T]]
+  //type VectorConverter[Vector1[T] <: Vector[T], Vector2[T] <: Vector[T]] = Vector1[T]=>Vector2[T]
+  //is it because of VectorConverter?
+//  def convert(implicit conv: VectorConverter[DenseVector, SparseVector]): SparseVector[T] = {
+//    conv(this)
+//  }
   
   override def equals(that: Any) = that match {
     case t: Vector[T] => t.underlying.toSeq == underlying.toSeq
@@ -128,19 +152,31 @@ final private class SparseVector[T: Numeric: ClassTag](val x: List[T]) extends V
   
   def map[U: Numeric: ClassTag](f: T => U): Vector[U] = new SparseVector(underlying.map(f).toList)
 
-  def dotProduct(v: Vector[T]): T = ???
+  def dotProduct(v: Vector[T]): T = underlying.zip(v.underlying).map((x) => num.times(x._1, x._2)).sum
 
-  def baseVectors: List[Vector[T]] = ??? //find base vectors
+  def baseVectors: List[Vector[T]] = underlying.zipWithIndex.map{case (x, i) => new SparseVector({
+    val listBuffer = mutable.ListBuffer.fill(underlying.length)(num.zero)
+    listBuffer(i) = x
+    listBuffer.toList
+  })} toList
 
   //TODO required possibility to lift such functions
-  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = ???
+  def partition(fun: T => Boolean): (Vector[T], Vector[T]) = underlying partition (fun) match {
+    case (head, tail) => (new SparseVector(head toList), new SparseVector(tail toList))
+  }
 
-  def splice(vs: Vector[T]*): Vector[T] = ???
+  def splice(vs: Vector[T]*): Vector[T] = new SparseVector(vs flatMap (_.underlying) toList)
 
   //TODO required possibility to lift tuples to Rep[(Tuple, Tuple)]
-  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = ???
+  def spliceT(v: (Vector[T], Vector[T])): Vector[T] = new SparseVector[T](v._1.underlying ++ v._2.underlying toList)
 
-  def transform[U: Numeric: ClassTag: VectorTransformer]: Vector[T] = ???
+  def transform(implicit vt: VectorTransformer[T]): Vector[T] = {
+    vt(this)
+  }
+
+//  def convert(implicit conv: VectorConverter[SparseVector, DenseVector]): DenseVector[T] = {
+//    conv(this)
+//  }
 
   override def equals(that: Any) = that match {
     case t: Vector[T] => t.underlying.toSeq == underlying.toSeq

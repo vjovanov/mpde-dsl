@@ -74,6 +74,8 @@ trait ArrayDSL extends Base {
 
 trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with Base {
 
+  type Vector[T] = dsl.la.Vector[T]
+
   //TODO (TOASK) - why we don't use our Vector type in Vector.scala instead of standart Vector class
 
   trait VectorOps[T] {
