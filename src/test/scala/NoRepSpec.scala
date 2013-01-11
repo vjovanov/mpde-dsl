@@ -22,6 +22,8 @@ class NoRepSpec extends FlatSpec with ShouldMatchers {
   "Baby steps first: No code at all. Just return a constant!!" should "compile" in {
     val out = 1
     var varOut = 2
-    laLifted ("test", {val x = Vector(out,varOut,3); var y = x; ();})
+    new VectorDSL {
+      def main = { val x = DenseVector(out,varOut,3)(null, null); var y = x; ();}
+    }
   }
 }

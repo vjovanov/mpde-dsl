@@ -1,21 +1,9 @@
 package dsl.la.norep
 
 import scala.reflect.ClassTag
-/*
- * This is a prototype implementation of the embedded DSL. In this prototype we will use the of 
- * polymorphic embedding of DSLs.  
- * 
- * DSL. Once the library is complete all method implementations should
- * remain empty so users can build their own embedded compilers. There is need to enforce more than lifting on the library user.  
- */
-trait Base {
+import base._
 
-  trait LiftEvidence[T, U] {
-    def lift(v: T): U
-  }
-
-  def liftTerm[T, Ret](v: T)(implicit liftEv: LiftEvidence[T, Ret]): Ret = liftEv.lift(v)
-}
+trait Base extends LiftBase
 
 trait IntDSL extends Base {
   type Int = IntOps
@@ -77,7 +65,7 @@ trait ArrayDSL extends Base {
 
 }
 
-trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base {
+trait VectorDSL extends ArrayDSL with IntDSL with NumericOps with Base with Interpret {
   type Vector[T] = VectorOps[T]
 
   trait VectorOps[T] {

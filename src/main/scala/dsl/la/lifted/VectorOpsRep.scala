@@ -1,5 +1,6 @@
 package dsl.la.rep
 
+import base._
 import scala.reflect.ClassTag
 
 /*
@@ -8,14 +9,8 @@ import scala.reflect.ClassTag
  * 
  * We need to provide the interface for basic Scala library features. 
  */
-trait Base {
+trait Base extends LiftBase {
   type Rep[+T]
-  
-  trait LiftEvidence[T, U] {
-    def lift(v: T): U
-  }
-  
-  def liftTerm[T, Ret](v: T)(implicit liftEv: LiftEvidence[T, Ret]): Ret = liftEv.lift(v) 
 }
 
 trait NumericOps extends Base {

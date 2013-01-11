@@ -7,6 +7,7 @@ package object la {
   
   def la[T](body: => T) = body
   
-  def laLifted[T](cake: String, block: => T) = macro lift[T]
+  // TODO should not return Unit but a value
+  def laLifted[T](cake: String, block: => T): Unit = macro lift[T]
   
 }
