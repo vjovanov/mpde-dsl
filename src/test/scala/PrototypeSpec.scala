@@ -6,6 +6,7 @@ import dsl.la.norep._
 
 class PrototypeSpec extends FlatSpec with ShouldMatchers {
 
+  private[this] val pfield = 1
   val field = 1
   var vfield = 1
   def method = 1
@@ -37,16 +38,18 @@ class PrototypeSpec extends FlatSpec with ShouldMatchers {
     // Conclusion - for the time being we can lift all identifiers freely. Later we will fine tune the transformer for fields and methods.
     
     val dslResult = laLifted("test", {
-      /*val here = 1
-      field
-      vfield
-      method
-      y(1) // we can leave this out for now
-      function
-      val in = 1
+//      pfield
+//      field
+//      vfield
+//      method      
+//      y(1) // we can leave this out for now
+//      function
+      def m = 1
+      val in = 1 
       in
-      t1*/
-      1
+      m 
+      function
+      t1
     })
   }
   
