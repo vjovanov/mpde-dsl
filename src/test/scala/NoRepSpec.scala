@@ -12,6 +12,10 @@ class NoRepSpec extends FlatSpec with ShouldMatchers {
   "A deep embedding of la without Rep types" should "compile" in {
     val x = new VectorDSL {
       def main = {
+        //we need to provide implicits between our new lifted types (NewInt -> NewDouble)
+        //look implementation of value types!!!
+        val a = Seq.apply(1,2,3.0)
+        val t0 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0))
         val t1 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) baseVectors
         val test1: Vector[Double] = t1(0)
         val t2 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) partition (_.eq(liftTerm(4)))
@@ -23,11 +27,12 @@ class NoRepSpec extends FlatSpec with ShouldMatchers {
         //TODO fix (implement) correct implicit for transform
 //        val t6: Vector[Double] = t5 transform
 
-        val v0 = DenseVector(Map(liftTerm(1)->liftTerm(1.0), liftTerm(2)->liftTerm(2.0), liftTerm(3)->liftTerm(3.0))) negate
+//        val v0 = DenseVector(Map(liftTerm(1)->liftTerm(1.0), liftTerm(2)->liftTerm(2.0), liftTerm(3)->liftTerm(3.0))) negate
         val v1 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) negate
         val res = (v1 + (DenseVector(liftTerm(3.0), liftTerm(4.0), liftTerm(5.0)) * SparseVector[Double](liftTerm(6), liftTerm(7.0), liftTerm(8.0)))) negate
         val mappedRes = res.map(_ + liftTerm(1.0)).negate
         mappedRes
+        val x = Seq.apply(1,2,3)
       }
     }
   }

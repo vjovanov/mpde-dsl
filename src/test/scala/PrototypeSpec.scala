@@ -19,12 +19,15 @@ class PrototypeSpec extends FlatSpec with ShouldMatchers {
   it should "compile" in {
     val x = la {
     //TODO implement this methods
-      val t1 = DenseVector(1.0, 2.0, 3.0) baseVectors
+
+      val a: Double = 5;
+      val t0 = DenseVector(Array(1, 2.0)) baseVectors
+      val t1 = DenseVector(a, 2, 3.0) baseVectors
       val test1: Vector[Double] = t1(0)
-      val t2 = DenseVector(1.0, 2.0, 3.0) partition (_ == 4)
+      val t2 = DenseVector(1.0, 2, 3.0) partition (_ == 4)
       val test2: (Vector[Double], Vector[Double]) = t2;
-      val t3 = DenseVector(1.0, 2.0, 3.0) dotProduct t2._1
-      val t4 = DenseVector(1.0, 2.0, 3.0) splice (t2._1, t2._2)
+      val t3 = DenseVector(1.0, 2.0, 3) dotProduct t2._1
+      val t4 = DenseVector(1, 2.0, 3.0) splice (t2._1, t2._2)
       val t5: Vector[Double] = t4 spliceT ((t2._1, t2._2))
 
       //TODO fix (implement) correct implicit for transform

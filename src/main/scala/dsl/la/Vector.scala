@@ -61,6 +61,7 @@ object DenseVector {
 }
 
 final private class DenseVector[T: Numeric: ClassTag](val x: Array[T]) extends Vector[T] {
+
   def underlying = x
   
   def num: Numeric[T] = implicitly[Numeric[T]]

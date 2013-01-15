@@ -17,10 +17,18 @@ trait Base {
   def liftTerm[T, Ret](v: T)(implicit liftEv: LiftEvidence[T, Ret]): Ret = liftEv.lift(v)
 }
 
-trait IntDSL extends DoubleDSL with Base {
+trait AnyValDSL extends Base {
+  type AnyVal = AnyValOps
+
+  trait AnyValOps {
+
+  }
+}
+
+trait IntDSL extends Base with AnyValDSL {
   type Int = IntOps
   
-  trait IntOps {
+  trait IntOps extends AnyVal {
     def +(that: Int): Int
     // TODO complete
   }
@@ -28,20 +36,19 @@ trait IntDSL extends DoubleDSL with Base {
   implicit object LiftInt extends LiftEvidence[scala.Int, Int] {
     def lift(v: scala.Int): Int = ???
   }
-
-  implicit def IntOpsToDoubleOps(conv: IntOps): DoubleOps = ???
 }
 
-trait DoubleDSL extends Base {
+trait DoubleDSL extends Base with AnyValDSL {
   type Double = DoubleOps
 
-  trait DoubleOps {
+  trait DoubleOps extends AnyVal{
     def +(that: Double): Double
     def pow(power: Double)
     def sqrt
     // TODO complete
   }
 
+  //TODO (TOASK) maybe extends LiftEvidence[scala.Double, DoubleDSL#Double]
   implicit object LiftDouble extends LiftEvidence[scala.Double, Double] {
     def lift(v: scala.Double): Double = ???
   }
@@ -79,6 +86,9 @@ trait NumericOps extends DoubleDSL with IntDSL with Base {
     def toInt(x: IntOps): IntOps = ???
     def compare(x: IntOps, y: IntOps): IntOps = ???
   }
+
+  //TODO (TOASK) problem how to write Double type or where to place this implicit?
+  implicit def intOpsToDoubleOps(conv: Int): Double = ???
 }
 
 
@@ -97,7 +107,7 @@ trait ArrayDSL extends Base {
 
 }
 
-trait VectorDSL extends ArrayDSL with IntDSL with DoubleDSL with NumericOps with Base {
+trait VectorDSL extends ArrayDSL with AnyValDSL with IntDSL with DoubleDSL with NumericOps with Base {
   type Vector[T] = VectorOps[T]
 
   trait VectorTransformer[T] {
@@ -130,8 +140,9 @@ trait VectorDSL extends ArrayDSL with IntDSL with DoubleDSL with NumericOps with
   }
 
   object DenseVector {
-    def apply[T: Numeric: ClassTag](a: T*): Vector[T] = ???
-    def apply[T: Numeric: ClassTag](a: Map[Int, T]): Vector[T] = ???
+//    def apply(a: Double*): Vector[Double] = ???
+    def apply[T <: Double,  Double: Numeric: ClassTag](a: T*): Vector[T] = ???
+//    def apply[T <: AnyVal: Numeric: ClassTag](a: Map[Int, T]): Vector[T] = ???
   }
 
   /**
