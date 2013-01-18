@@ -8,6 +8,8 @@ import scala.reflect.ClassTag
  * 
  * We need to provide the interface for basic Scala library features. 
  */
+
+//TODO create tuples class
 trait Base {
   type Rep[+T]
   
@@ -18,19 +20,107 @@ trait Base {
   def liftTerm[T, Ret](v: T)(implicit liftEv: LiftEvidence[T, Ret]): Ret = liftEv.lift(v) 
 }
 
-trait NumericOps extends Base {
-  // TODO complete 
+//TODO (TOASK) - Am I correct with such implementation of Numeric type (partly from scala.math.Numeric, partly based
+//on other provided types in Rep
+trait NumericDSL extends Base {
+  trait NumericOps[T] {
+    def plus(x: Rep[T], y: Rep[T]): Rep[T]
+    def minus(x: Rep[T], y: Rep[T]): Rep[T]
+    def times(x: Rep[T], y: Rep[T]): Rep[T]
+    def negate(x: Rep[T]): Rep[T]
+    def fromInt(x: Rep[Int]): Rep[T]
+    def toInt(x: Rep[T]): Rep[Int]
+    def toDouble(x: Rep[T]): Rep[Double]
+
+    def zero: Rep[T]
+    def one: Rep[T]
+
+    def abs(x: Rep[T]): Rep[T]
+    def signum(x: Rep[T]): Rep[Int]
+
+    class Ops(lhs: Rep[T]) {
+      def +(rhs: Rep[T]) = plus(lhs, rhs)
+      def -(rhs: Rep[T]) = minus(lhs, rhs)
+      def *(rhs: Rep[T]) = times(lhs, rhs)
+      def unary_-() = negate(lhs)
+
+      //TODO see compilation problems in implementation
+      //this methods are implemented in terms of NumericOps
+      def abs(): Rep[T] = ??? //NumericOps.this.abs(lhs)
+      def toInt(): Rep[Int] = ??? //NumericOps.this.toInt(lhs)
+      def toDouble(): Rep[Double] = ??? //NumericOps.this.toDouble(lhs)
+    }
+
+    implicit def mkNumericOps(lhs: Rep[T]): Ops
+  }
+
+  trait NumericOpsOf[T] extends NumericOps[T] {
+    def plus(x: Rep[T], y: Rep[T]): Rep[T]
+    def minus(x: Rep[T], y: Rep[T]): Rep[T]
+    def times(x: Rep[T], y: Rep[T]): Rep[T]
+    def negate(x: Rep[T]): Rep[T]
+    def fromInt(x: Rep[Int]): Rep[T]
+    def toInt(x: Rep[T]): Rep[Int]
+    def toDouble(x: Rep[T]): Rep[Double]
+
+    def zero: Rep[T] = ???
+    def one: Rep[T] = ???
+
+    def abs(x: Rep[T]): Rep[T] = ???
+    def signum(x: Rep[T]): Rep[Int] = ???
+
+    override implicit def mkNumericOps(lhs: Rep[T]) = ???
+  }
+
+  //conctete implicit objects for Numeric[Double] and Numeric[Int]
+  object NumericOpsOf {
+    implicit object NumericInt extends NumericOpsOf[Int] {
+      def plus(x: Rep[Int], y: Rep[Int]): Rep[Int] = ???
+      def minus(x: Rep[Int], y: Rep[Int]): Rep[Int] = ???
+      def times(x: Rep[Int], y: Rep[Int]): Rep[Int] = ???
+      def negate(x: Rep[Int]): Rep[Int] = ???
+
+      def fromInt(x: Rep[Int]): Rep[Int] = ???
+      def toInt(x: Rep[Int]): Rep[Int] = ???
+      def toDouble(x: Rep[Int]): Rep[Double] = ???
+    }
+
+    implicit object NumericDouble extends NumericOpsOf[Double] {
+      def plus(x: Rep[Double], y: Rep[Double]): Rep[Double] = ???
+      def minus(x: Rep[Double], y: Rep[Double]): Rep[Double] = ???
+      def times(x: Rep[Double], y: Rep[Double]): Rep[Double] = ???
+      def negate(x: Rep[Double]): Rep[Double] = ???
+
+      def fromInt(x: Rep[Int]): Rep[Double] = ???
+      // TODO these need to return the lifted types. This means that Numeric Type needs to be changed to something else.
+      def toInt(x: Rep[Double]): Rep[Int] = ???
+      def toDouble(x: Rep[Double]): Rep[Double] = ???
+    }
+  }
 }
 
-
 trait IntDSL extends Base {
+  //Rep versions of Int operations
   trait IntOps {
-    def +(that: Rep[Int]): Rep[Int] 
-    // TODO complete
+    //    def +(that: Rep[Int]): Rep[Int]
+    def +(that: Rep[Double]) : Rep[Double]
+    //    def *(that: Rep[Int]): [Int]
+    def *(that: Rep[Double]) : Rep[Double]
+    def unary_- : Rep[Int]
+    def toInt : Rep[Int]
+    def toDouble : Rep[Double]
   }
-  
+
+  //implementation of this operations (using implicit conversion to IntOpsOf class
+  //before operation
   implicit class IntOpsOf(v: Rep[Int]) extends IntOps {
-    def +(that: Rep[Int]): Rep[Int] = ???
+    //    def +(that: Rep[Int]): Rep[Int] = ???
+    def +(that: Rep[Double]): Rep[Double] = ???
+    //    def *(that: Rep[Int]): [Int] = ???
+    def *(that: Rep[Double]) : Rep[Double] = ???
+    def unary_- : Rep[Int] = ???
+    def toInt : Rep[Int] = ???
+    def toDouble : Rep[Double] = ???
   }
 
   implicit object LiftInt extends LiftEvidence[Int, Rep[Int]] {
@@ -38,14 +128,27 @@ trait IntDSL extends Base {
   }
 }
 
+//TODO (TOASK) problem to define lift methods
+//where there were in default Double several methods with one parameter of different types
 trait DoubleDSL extends Base {
   trait DoubleOps {
-    def +(that: Rep[Double]): Rep[Double]
-    // TODO complete
+//    def +(that: Rep[Int]): Rep[Int]
+    def +(that: Rep[Double]) : Rep[Double]
+//    def *(that: Rep[Int]): [Int]
+    def *(that: Rep[Double]) : Rep[Double]
+    def unary_- : Rep[Int]
+    def toInt : Rep[Int]
+    def toDouble : Rep[Double]
   }
 
   implicit class DoubleOpsOf(v: Rep[Double]) extends DoubleOps {
+    //    def +(that: Rep[Int]): Rep[Int] = ???
     def +(that: Rep[Double]): Rep[Double] = ???
+    //    def *(that: Rep[Int]): [Int] = ???
+    def *(that: Rep[Double]) : Rep[Double] = ???
+    def unary_- : Rep[Int] = ???
+    def toInt : Rep[Int] = ???
+    def toDouble : Rep[Double] = ???
   }
 
   implicit object LiftDouble extends LiftEvidence[Double, Rep[Double]] {
@@ -67,16 +170,20 @@ trait ArrayDSL extends Base {
   
   object Array {
     def apply[T](values: T*): Rep[Array[T]] = ???
+
+    //TODO (TOASK) - what should we do with parameters like elem of type => T
+    def fill[T: ClassTag](n : Rep[Int])(elem : => Rep[T]) : ArrayOps[T] = ???
     // TODO complete
   }
   
 }
 
-trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with Base {
+trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with Base {
 
   type Vector[T] = dsl.la.Vector[T]
 
-  //TODO (TOASK) - why we don't use our Vector type in Vector.scala instead of standart Vector class
+  //TODO (TOASK) problem how to write Double type or where to place this implicit?
+  implicit def intOpsToDoubleOps(conv: Rep[Int]): Rep[Double] = ???
 
   trait VectorOps[T] {
     def *(v: Rep[Vector[T]]): Rep[Vector[T]]
@@ -111,14 +218,17 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with
     def negate: Rep[Vector[T]] = ???
     def length: Rep[Double] = ???
 
+    //TODO think about correctness of usafe (Rep[List[...]] -> List[Rep[...]])
     def baseVectors: Rep[List[Vector[T]]] = ??? //find base vectors
 
+    //TODO model tuples - it should be Tuple(Rep[Vector[T]], Rep[Vector[T]])
     def partition(fun: Rep[T] => Rep[Boolean]): Rep[(Vector[T], Vector[T])] = ???
 
     def dotProduct(v: Rep[Vector[T]]): Rep[T] = ???
 
     def splice(vs: Rep[Vector[T]]*): Rep[Vector[T]] = ???
 
+    //TODO model tuples
     def spliceT(v: Rep[(Vector[T], Vector[T])]): Rep[Vector[T]] = ???
 
     // TODO complete
@@ -127,7 +237,7 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with
   object DenseVector {
     def apply[T: Numeric: ClassTag](a: Rep[T]*): Rep[Vector[T]] = ???
 
-    //TODO required possibility to lift Map to Rep[Map]
+    //TODO required possibility to lift Map to Rep[Map] - map Map
     def apply[T: Numeric: ClassTag](a: Rep[Map[Int, T]]): Rep[Vector[T]] = ???
   }
 
@@ -136,6 +246,9 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericOps with
    */
   object SparseVector {
     def apply[T: Numeric: ClassTag](a: Rep[T]*): Rep[Vector[T]] = ???
+
+    //TODO incorrect - should model Map instead
+    //TODO (TOASK) - what classes we should model (like Tuples) and what we can use (like Double)
     def apply[T: Numeric: ClassTag](a: Rep[Map[Int, T]]): Rep[Vector[T]] = ???
   }
 

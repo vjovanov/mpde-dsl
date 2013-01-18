@@ -18,6 +18,7 @@ class RepSpec extends FlatSpec with ShouldMatchers {
         //TODO need way to lift Map to corresponding Rep type
 //        val v0 = DenseVector(Map(1->liftTerm(1.0), 2->liftTerm(2.0), 3->liftTerm(3.0)))
 
+//        val t0 = DenseVector(liftTerm(1), liftTerm(2.0), liftTerm(3.0))
         val t1: Rep[List[Vector[Double]]] = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) baseVectors
         val t2 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0))
 
