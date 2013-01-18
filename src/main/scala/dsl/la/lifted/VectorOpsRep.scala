@@ -199,7 +199,7 @@ trait TupleDSL extends Base {
 
 }
 
-trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with Base {
+trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with Base with TupleDSL {
 
   type Vector[T] = dsl.la.Vector[T]
 
@@ -217,9 +217,9 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with
     //TODO (TOASK) how to correctly provide Rep type?
     //Rep[List[Vector[T]] or List[Rep[Vector[T]]
     //or Rep[List[Rep[Vector[T]]]] ???
-    def baseVectors: Rep[List[Vector[T]]] //find base vectors
+    def baseVectors: Rep[ArrayOps[Vector[T]]] //find base vectors
 
-    def partition(fun: Rep[T] => Rep[Boolean]): Rep[(Vector[T], Vector[T])]
+    def partition(fun: Rep[T] => Rep[Boolean]): Tuple2Ops[Rep[Vector[T]], Rep[Vector[T]]]
 
     def dotProduct(v: Rep[Vector[T]]): Rep[T]
 
@@ -227,7 +227,7 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with
 
     //TODO (TOASK)
     //the same question with tuple Rep[(El, El)] or (Rep[El], Rep[El]) or Rep[(Rep[El], Rep[El])]
-    def spliceT(v: Rep[(Vector[T], Vector[T])]): Rep[Vector[T]]
+    def spliceT(v: Tuple2Ops[Rep[Vector[T]], Rep[Vector[T]]]): Rep[Vector[T]]
 
   }
 
@@ -240,17 +240,17 @@ trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with
     def length: Rep[Double] = ???
 
     //TODO think about correctness of usafe (Rep[List[...]] -> List[Rep[...]])
-    def baseVectors: Rep[List[Vector[T]]] = ??? //find base vectors
+    def baseVectors: Rep[ArrayOps[Vector[T]]] = ??? //find base vectors
 
     //TODO model tuples - it should be Tuple(Rep[Vector[T]], Rep[Vector[T]])
-    def partition(fun: Rep[T] => Rep[Boolean]): Rep[(Vector[T], Vector[T])] = ???
+    def partition(fun: Rep[T] => Rep[Boolean]): Tuple2Ops[Rep[Vector[T]], Rep[Vector[T]]] = ???
 
     def dotProduct(v: Rep[Vector[T]]): Rep[T] = ???
 
     def splice(vs: Rep[Vector[T]]*): Rep[Vector[T]] = ???
 
     //TODO model tuples
-    def spliceT(v: Rep[(Vector[T], Vector[T])]): Rep[Vector[T]] = ???
+    def spliceT(v: Tuple2Ops[Rep[Vector[T]], Rep[Vector[T]]]): Rep[Vector[T]] = ???
 
     // TODO complete
   }

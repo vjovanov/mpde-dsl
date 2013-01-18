@@ -12,14 +12,14 @@ class RepSpec extends FlatSpec with ShouldMatchers {
   "A deep embedding of la with Rep types" should "compile" in {
     val x = new VectorDSL {
 
-      def produceTuple[T]: Rep[(Vector[T], Vector[T])] = ???
+      def produceTuple[T]: Tuple2Ops[Rep[Vector[T]], Rep[Vector[T]]] = ???
 
       def main = {
         //TODO need way to lift Map to corresponding Rep type
 //        val v0 = DenseVector(Map(1->liftTerm(1.0), 2->liftTerm(2.0), 3->liftTerm(3.0)))
 
 //        val t0 = DenseVector(liftTerm(1), liftTerm(2.0), liftTerm(3.0))
-        val t1: Rep[List[Vector[Double]]] = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) baseVectors
+        val t1: Rep[ArrayOps[Vector[Double]]] = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) baseVectors
         val t2 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0))
 
         //TODO need way to lift functions to their Rep types
@@ -29,7 +29,7 @@ class RepSpec extends FlatSpec with ShouldMatchers {
         val t4 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) splice (t2, t2)
 
         //TODO need way to lift Tuple to Rep[Tuple]
-        val tuple: Rep[(Vector[Double], Vector[Double])] = produceTuple
+        val tuple: Tuple2Ops[Rep[Vector[Double]], Rep[Vector[Double]]] = produceTuple
         val t5 = t4 spliceT (tuple)
 
         //TODO fix transform method

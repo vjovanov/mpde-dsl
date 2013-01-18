@@ -17,12 +17,12 @@ class NoRepSpec extends FlatSpec with ShouldMatchers {
         val a = Seq.apply(1,2,3.0)
         val t0 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0))
         val t1 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) baseVectors
-        val test1: Vector[Double] = t1(0)
+        val test1: Vector[Double] = t1(liftTerm(0))
         val t2 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) partition (_.eq(liftTerm(4)))
-        val test2: (Vector[Double], Vector[Double]) = t2;
+        val test2: Tuple2[Vector[Double], Vector[Double]] = t2;
         val t3 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) dotProduct t2._1
         val t4 = DenseVector(liftTerm(1.0), liftTerm(2.0), liftTerm(3.0)) splice (t2._1, t2._2)
-        val t5: Vector[Double] = t4 spliceT ((t2._1, t2._2))
+        val t5: Vector[Double] = t4 spliceT (Tuple2(t2._1, t2._2))
 
         //TODO fix (implement) correct implicit for transform
 //        val t6: Vector[Double] = t5 transform

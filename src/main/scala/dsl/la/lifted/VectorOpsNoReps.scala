@@ -190,7 +190,7 @@ trait TupleDSL extends Base with AnyRefDSL {
 
 }
 
-trait VectorDSL extends ArrayDSL with AnyRefDSL with IntDSL with DoubleDSL with NumericDSL with Base {
+trait VectorDSL extends ArrayDSL with TupleDSL with AnyRefDSL with IntDSL with DoubleDSL with NumericDSL with Base {
   type Vector[T] = VectorOps[T]
 
   //TODO test and correct its usage
@@ -211,15 +211,15 @@ trait VectorDSL extends ArrayDSL with AnyRefDSL with IntDSL with DoubleDSL with 
     def map[U: Numeric: ClassTag](v: T => U): Vector[U]
 
     //TODO it's a bad idea to provide here implementation
-    def baseVectors: List[Vector[T]] = ??? //find base vectors
+    def baseVectors: Array[Vector[T]] = ??? //find base vectors
 
-    def partition(fun: T => Boolean): (Vector[T], Vector[T])
+    def partition(fun: T => Boolean): Tuple2[Vector[T], Vector[T]]
 
     def dotProduct(v: Vector[T]): T
 
     def splice(vs: Vector[T]*): Vector[T]
 
-    def spliceT(v: (Vector[T], Vector[T])): Vector[T]
+    def spliceT(v: Tuple2[Vector[T], Vector[T]]): Vector[T]
 
     def transform(tr: VectorTransformer[T]): Vector[T]
   }
