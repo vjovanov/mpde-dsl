@@ -178,6 +178,27 @@ trait ArrayDSL extends Base {
   
 }
 
+trait TupleDSL extends Base {
+
+  trait Tuple2Ops[T1, T2] extends AnyRef {
+    def _1: Rep[T1]
+    def _2: Rep[T2]
+    def swap: Tuple2[Rep[T2], Rep[T1]]
+  }
+
+  //Wrapper to work with Rep tuples
+  implicit class Tuple2OpsOf[T1, T2](v: Rep[Tuple2[T1, T2]]) extends Tuple2Ops[T1, T2] {
+    def _1: Rep[T1] = ???
+    def _2: Rep[T2] = ???
+    def swap: Tuple2[Rep[T2], Rep[T1]] = ???
+  }
+
+  object Tuple2 {
+    def apply[T1, T2](x1: T1, x2: T2): Rep[Tuple2[T1, T2]] = ???
+  }
+
+}
+
 trait VectorDSL extends ArrayDSL with DoubleDSL with IntDSL with NumericDSL with Base {
 
   type Vector[T] = dsl.la.Vector[T]

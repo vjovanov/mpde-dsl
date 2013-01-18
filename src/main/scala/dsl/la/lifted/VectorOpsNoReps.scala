@@ -168,6 +168,28 @@ trait ArrayDSL extends Base with AnyRefDSL with IntDSL {
 
 }
 
+trait TupleDSL extends Base with AnyRefDSL {
+  type Tuple2[T1, T2] = Tuple2Ops[T1, T2]
+
+  trait Tuple2Ops[T1, T2] extends AnyRef {
+    def _1: T1
+    def _2: T2
+    def swap: Tuple2[T2, T1]
+
+    //TODO (TOASK) find place for code lifting
+    implicit object LiftTuple2 extends LiftEvidence[scala.Tuple2[T1, T2], Tuple2[T1, T2]] {
+      def lift(v: scala.Tuple2[T1, T2]): Tuple2[T1, T2] = ???
+    }
+  }
+
+  object Tuple2 {
+    def apply[T1, T2](x1: T1, x2: T2): Tuple2[T1, T2] = ???
+
+  }
+
+
+}
+
 trait VectorDSL extends ArrayDSL with AnyRefDSL with IntDSL with DoubleDSL with NumericDSL with Base {
   type Vector[T] = VectorOps[T]
 
